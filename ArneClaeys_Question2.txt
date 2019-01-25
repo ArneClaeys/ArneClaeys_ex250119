@@ -1,0 +1,18 @@
+UNF   DB(Personnel_number, Name, Date_of_birth, Lab_code, Lab_name, Research_code,
+         Research_description, Research_supervisor)
+
+1NF   DB(Personnel_number, Name, Date_of_birth, Lab_code, Lab_name, Research_code,
+         Research_description, Research_supervisor)
+      ###keys(Personnel_number, Lab_code)###  
+       
+2NF   Personnel_No(Personnel_number, Name, Research_description, Research_supervisor)
+      Lab(Lab_code, Lab_Name, Research_description, Research_supervisor)
+      ###keys(Personnel_number, Lab_code, Research_supervisor - Research_code,
+      Research_code - Research_description)###
+
+3NF   Personnel_No(Personnel_number, Name)
+      Lab(Lab_code, Lab_name)
+      Research(Research_code, Research_supervisor, Research_description)
+      ###keys(Personnel_number - Name, Lab_code - Lab_Name, 
+      Research_code - Research_supervisor, Research_code - Research_description)###
+      
