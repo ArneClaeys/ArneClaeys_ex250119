@@ -1,0 +1,18 @@
+Question 4: Give the name and length of the smallest gene in the genome
+   SELECT gene_name, (seq_region_end - seq_region_start + 1) AS size FROM gene ORDER BY size asc LIMIT 1;
+Answer: gene_name: TRDD1, size: 8
+
+Question 5: What is the name of the gene with the most transcripts? What is the number of transcripts of this gene?
+   SELECT t.gene_id, g.gene_name, count(*) AS transcript_count FROM gene g JOIN transcript t ON g.gene_id = t.gene_id GROUP BY t.gene_id ORDER BY count(*) desc LIMIT 1;
+Answer: gene_id: 117153, gene_name: NDRG2, transcript_count: 80
+
+Question 6: Give the name of the chromosome with the second most genes that tell something about cancer. What is the number of exons of this chromosome? (2 queries)
+   SELECT chromosome, count(*) AS gene_count FROM gene WHERE description like '%cancer%' GROUP BY chromosome ORDER BY gene_count desc LIMIT 1 OFFSET 1;
+Answer: chromosome: 9, gene_count: 5
+   SELECT g.chromosome, count(*) AS exon_count FROM gene g JOIN transcript t ON g.gene_id = t.gene_id JOIN exon_transcript et ON t.transcript_id = et.transcript_id JOIN exon e ON et.exon_id = e.exon_id WHERE chromosome = 9;
+Answer: chromosome: 9, exon_count: 45679
+
+Question 7: Give the number of rows from the exon table and do the same for the exon_transcript table. Explain why there is a difference in number of rows.
+   SELECT count(*) FROM exon;
+   SELECT count(*) FROM exon_transcript;
+Answer: exon table only shows the exons. Exon_transcript table also shows the transcripts. This means that the exon_transcript table is larger because there will be repeating exons per transcript.
